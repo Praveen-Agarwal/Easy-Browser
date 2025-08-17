@@ -37,9 +37,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let progressButton = UIBarButtonItem(customView: progressView)
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let backButton = UIBarButtonItem(barButtonSystemItem: .rewind, target: webView, action: #selector(webView.goBack))
+        let forwardButton = UIBarButtonItem(barButtonSystemItem: .fastForward, target: webView, action: #selector(webView.goForward))
+        
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         
-        toolbarItems = [progressButton, spacer, refresh]
+        toolbarItems = [progressButton, spacer, backButton, forwardButton, spacer, refresh]
         navigationController?.isToolbarHidden = false
     }
     
@@ -76,6 +80,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     return .allow
                 }
             }
+            let alert = UIAlertController(title: nil, message: "This url is blocked", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true)
         }
         
         return .cancel
